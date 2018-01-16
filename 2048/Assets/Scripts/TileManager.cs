@@ -7,9 +7,10 @@ public class TileManager : MonoBehaviour {
     public GameObject[] tilePositions;
 
     private TileCreator tc;
-    private GameObject[] tileObjects;
     private List<TileClass> tileObjectList;
     private int[] tiles;
+
+    private bool creatable_init_tile = false;
 
 	// Use this for initialization
 	void Start () {
@@ -21,31 +22,36 @@ public class TileManager : MonoBehaviour {
             tiles[i] = 0;
         }
 
-        tileObjects = new GameObject[9];
-
-        createTileValue();
-        createTileValue();
-
-        //tileObjects[0] = tileObjects[1];
-        //tileObjects[1] = null;
-
-        //for(int i = 0; i < tileObjects.Length; i++) {
-        //    Debug.Log("array list :  " + tileObjects[i]);
-        //}
+        createInitTile();
+        createInitTile();
     }
 	
 	// Update is called once per frame
 	void Update () {
         if(Input.GetKey(KeyCode.RightArrow)) {
             checkMoveTile("right");
+            checkCreateInitTile();
+        } else if(Input.GetKey(KeyCode.LeftArrow)) {
+            checkMoveTile("left");
+            checkCreateInitTile();
         }
 	}
 
-    void createTileValue() {
+    void checkCreateInitTile() {
+        if(creatable_init_tile) {
+            createInitTile();
+            creatable_init_tile = false;
+        }
+    }
+
+    void createInitTile() {
         int temp = setRandom();
         GameObject gtemp = null;
 
         while(!checkCreatableTile(temp)) {
+            if(isFullTile()) {
+                return;
+            }
             temp = setRandom();
         }
 
@@ -54,6 +60,16 @@ public class TileManager : MonoBehaviour {
         gtemp = tc.createTile(2, getTilePosition(temp));
 
         tileObjectList.Add(new TileClass(gtemp, temp));
+    }
+
+    bool isFullTile() {
+        for(int i = 0; i < tiles.Length; i++) {
+            if(tiles[i] == 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     void createTile(int value, int target_position) {
@@ -87,7 +103,7 @@ public class TileManager : MonoBehaviour {
             case "right":
                 for(int i = 0; i < 9; i++) {
                     if(i % 3 != 2 && tiles[i] != 0) {
-                        if(tiles[i+1] == 0) {
+                        if(tiles[i + 1] == 0) {
                             if(i % 3 == 0 && tiles[i+2] == 0) {
                                 moveTile(i, i + 2);
                             } else {
@@ -104,6 +120,23 @@ public class TileManager : MonoBehaviour {
                 }
                 break;
             case "left":
+                for(int i = 0; i < 9; i++) {
+                    if(i % 3 != 0 && tiles[i] != 0) {
+                        if(tiles[i - 1] == 0) {
+                            if(i % 3 == 2 && tiles[i - 2] == 0) {
+                                moveTile(i, i - 2);
+                            } else {
+                                moveTile(i, i - 1);
+                            }
+                        } else {
+                            if(checkEquleTile(i, i - 1)) {
+                                combineTile(i, i - 1);
+                            } else if(i % 3 == 2 && tiles[i - 1] == 0 && checkEquleTile(i, i - 2)) {
+                                combineTile(i, i - 2);
+                            }
+                        }
+                    }
+                }
                 break;
             case "up":
                 break;
@@ -115,14 +148,18 @@ public class TileManager : MonoBehaviour {
     void moveTile(int current, int target) {
         tiles[target] = tiles[current];
         tiles[current] = 0;
-        Debug.Log("current : " + current + "target : " + target);
-        GameObject ctemp = findTileClass(current).getTile();
+
+        TileClass ct = findTileClass(current);
+        GameObject ctemp = ct.getTile();
+
+        ct.movePosition(target); // set move position
         ctemp.transform.position = getTilePosition(target); // move (object)tile
+
+        creatable_init_tile = true; // 초기 타일 생성 가능
     }
 
     void combineTile(int current, int target) {
         //Vector3 temp = findTilePositon(target);
-
 
         tiles[target] += tiles[current];
         tiles[current] = 0;
@@ -131,6 +168,8 @@ public class TileManager : MonoBehaviour {
 
         deleteTile(current);
         deleteTile(target);
+
+        creatable_init_tile = true; // 초기 타일 생성 가능
     }
 
     bool checkEquleTile(int current, int target) {
@@ -141,7 +180,7 @@ public class TileManager : MonoBehaviour {
     }
 
     void deleteTile(int target) {
-        Debug.Log("target : " + target);
+        //Debug.Log("target : " + target);
         TileClass temp = findTileClass(target);
         temp.destroyTile();
         tileObjectList.Remove(temp);
@@ -171,6 +210,10 @@ public class TileManager : MonoBehaviour {
 
         public int getPosition() {
             return position;
+        }
+
+        public void movePosition(int value) {
+            this.position = value;
         }
 
         public GameObject getTile() {
