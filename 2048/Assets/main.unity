@@ -194,13 +194,15 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 157741505}
+  - component: {fileID: 157741506}
+  - component: {fileID: 157741507}
   m_Layer: 0
   m_Name: BottleTiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &157741505
 Transform:
   m_ObjectHideFlags: 0
@@ -223,6 +225,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &157741506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 157741504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09028f6df5d0d0a4287f015ae6bf091d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilePositions:
+  - {fileID: 1097299887}
+  - {fileID: 958600929}
+  - {fileID: 175214690}
+  - {fileID: 932901553}
+  - {fileID: 384686640}
+  - {fileID: 378842811}
+  - {fileID: 675459714}
+  - {fileID: 1043594400}
+  - {fileID: 495173462}
+--- !u!114 &157741507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 157741504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4828be1c75eddcd4f9751dcd43c83ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj:
+  - {fileID: 1260844283809366, guid: 4a342f26bcc0ffe4f97631095a55d359, type: 2}
+  - {fileID: 1260844283809366, guid: e4391f0f0e5ddda409dd22d7c70c056c, type: 2}
+  - {fileID: 1260844283809366, guid: 9745d28712380b24493ba6b4f20e8c26, type: 2}
+  - {fileID: 1260844283809366, guid: 24ebe8f7726081e42a167d8dfea78a6e, type: 2}
+  - {fileID: 1260844283809366, guid: 8c5623d00d5f8934d8f9a9626e21d9e7, type: 2}
+  - {fileID: 1260844283809366, guid: 7e95989ad68cdb24794241be49d015dc, type: 2}
+  - {fileID: 1260844283809366, guid: acc9621794e60be4f98c9aa23333dcc2, type: 2}
+  - {fileID: 1260844283809366, guid: eb9de22ad5d77d046963f5cfc940e823, type: 2}
+  - {fileID: 1260844283809366, guid: e9b1652d9adc34b46a67afced4d501c2, type: 2}
+  - {fileID: 1260844283809366, guid: dda79fe91dd5fab4c8d7bbd0bffc8ee4, type: 2}
+  - {fileID: 1260844283809366, guid: b2a3dcc19344e504f898b93c5208b33d, type: 2}
 --- !u!1 &175214690
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &175214691
 Transform:
   m_ObjectHideFlags: 0
@@ -311,7 +357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &378842812
 Transform:
   m_ObjectHideFlags: 0
@@ -384,7 +430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &384686641
 Transform:
   m_ObjectHideFlags: 0
@@ -457,7 +503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &495173463
 Transform:
   m_ObjectHideFlags: 0
@@ -633,7 +679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &675459715
 Transform:
   m_ObjectHideFlags: 0
@@ -706,7 +752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &932901554
 Transform:
   m_ObjectHideFlags: 0
@@ -779,7 +825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &958600930
 Transform:
   m_ObjectHideFlags: 0
@@ -852,7 +898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1043594401
 Transform:
   m_ObjectHideFlags: 0
@@ -925,7 +971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1097299888
 Transform:
   m_ObjectHideFlags: 0
