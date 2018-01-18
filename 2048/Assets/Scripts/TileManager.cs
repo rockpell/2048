@@ -12,6 +12,8 @@ public class TileManager : MonoBehaviour {
 
     private bool creatable_init_tile = false;
 
+    private int col = 3;
+
 	// Use this for initialization
 	void Start () {
         tiles = new int[9];
@@ -28,14 +30,20 @@ public class TileManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetKey(KeyCode.RightArrow)) {
+        if(Input.GetKeyDown(KeyCode.RightArrow)) {
             checkMoveTile("right");
             checkCreateInitTile();
-        } else if(Input.GetKey(KeyCode.LeftArrow)) {
+        } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
             checkMoveTile("left");
             checkCreateInitTile();
+        } else if(Input.GetKeyDown(KeyCode.UpArrow)) {
+            checkMoveTile("up");
+            checkCreateInitTile();
+        } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
+            checkMoveTile("down");
+            checkCreateInitTile();
         }
-	}
+    }
 
     void checkCreateInitTile() {
         if(creatable_init_tile) {
@@ -58,7 +66,6 @@ public class TileManager : MonoBehaviour {
         this.tiles[temp] = 2;
         
         gtemp = tc.createTile(2, getTilePosition(temp));
-
         tileObjectList.Add(new TileClass(gtemp, temp));
     }
 
@@ -102,9 +109,9 @@ public class TileManager : MonoBehaviour {
         switch(direction) {//012 345 678
             case "right":
                 for(int i = 0; i < 9; i++) {
-                    if(i % 3 != 2 && tiles[i] != 0) {
+                    if(i % col != 2 && tiles[i] != 0) {
                         if(tiles[i + 1] == 0) {
-                            if(i % 3 == 0 && tiles[i+2] == 0) {
+                            if(i % col == 0 && tiles[i + 2] == 0) {
                                 moveTile(i, i + 2);
                             } else {
                                 moveTile(i, i + 1);
@@ -112,7 +119,7 @@ public class TileManager : MonoBehaviour {
                         } else {
                             if(checkEquleTile(i, i + 1)) {
                                 combineTile(i, i + 1);
-                            } else if(i % 3 == 0 && tiles[i + 1] == 0 && checkEquleTile(i, i + 2)) {
+                            } else if(i % col == 0 && tiles[i + 1] == 0 && checkEquleTile(i, i + 2)) {
                                 combineTile(i, i + 2);
                             }
                         }
@@ -121,9 +128,9 @@ public class TileManager : MonoBehaviour {
                 break;
             case "left":
                 for(int i = 0; i < 9; i++) {
-                    if(i % 3 != 0 && tiles[i] != 0) {
+                    if(i % col != 0 && tiles[i] != 0) {
                         if(tiles[i - 1] == 0) {
-                            if(i % 3 == 2 && tiles[i - 2] == 0) {
+                            if(i % col == 2 && tiles[i - 2] == 0) {
                                 moveTile(i, i - 2);
                             } else {
                                 moveTile(i, i - 1);
@@ -131,7 +138,7 @@ public class TileManager : MonoBehaviour {
                         } else {
                             if(checkEquleTile(i, i - 1)) {
                                 combineTile(i, i - 1);
-                            } else if(i % 3 == 2 && tiles[i - 1] == 0 && checkEquleTile(i, i - 2)) {
+                            } else if(i % col == 2 && tiles[i - 1] == 0 && checkEquleTile(i, i - 2)) {
                                 combineTile(i, i - 2);
                             }
                         }
@@ -139,8 +146,42 @@ public class TileManager : MonoBehaviour {
                 }
                 break;
             case "up":
+                for(int i = 0; i < 9; i++) {
+                    if(i >= col && tiles[i] != 0) {
+                        if(tiles[i - 1* col] == 0) {
+                            if(i >= 2*col && tiles[i - 2* col] == 0) {
+                                moveTile(i, i - 2* col);
+                            } else {
+                                moveTile(i, i - 1* col);
+                            }
+                        } else {
+                            if(checkEquleTile(i, i - 1* col)) {
+                                combineTile(i, i - 1* col);
+                            } else if(i >= 2*col && tiles[i - 1*col] == 0 && checkEquleTile(i, i - 2* col)) {
+                                combineTile(i, i - 2);
+                            }
+                        }
+                    }
+                }
                 break;
             case "down":
+                for(int i = 0; i < 9; i++) {
+                    if(i < 2 * col && tiles[i] != 0) {
+                        if(tiles[i + 1 * col] == 0) {
+                            if(i < col && tiles[i + 2 * col] == 0) {
+                                moveTile(i, i + 2 * col);
+                            } else {
+                                moveTile(i, i + 1 * col);
+                            }
+                        } else {
+                            if(checkEquleTile(i, i + 1 * col)) {
+                                combineTile(i, i + 1 * col);
+                            } else if(i < col && tiles[i + 1 * col] == 0 && checkEquleTile(i, i + 2 * col)) {
+                                combineTile(i, i + 2 * col);
+                            }
+                        }
+                    }
+                }
                 break;
         }
     }

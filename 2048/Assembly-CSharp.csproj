@@ -53,6 +53,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\TileCreator.cs" />
      <Compile Include="Assets\Scripts\TileManager.cs" />
+     <Compile Include="Assets\Scripts\TileSelf.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
