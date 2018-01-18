@@ -26,15 +26,18 @@ public class TileManager : MonoBehaviour {
 
         createInitTile();
         createInitTile();
+        createInitTile();
+        createInitTile();
+        createInitTile();
     }
 	
 	// Update is called once per frame
 	void Update () {
         if(Input.GetKeyDown(KeyCode.RightArrow)) {
-            checkMoveTile("right");
+            checkMove("right");
             checkCreateInitTile();
         } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-            checkMoveTile("left");
+            checkMove("left");
             checkCreateInitTile();
         } else if(Input.GetKeyDown(KeyCode.UpArrow)) {
             checkMoveTile("up");
@@ -66,7 +69,7 @@ public class TileManager : MonoBehaviour {
         this.tiles[temp] = 2;
         
         gtemp = tc.createTile(2, getTilePosition(temp));
-        tileObjectList.Add(new TileClass(gtemp, temp));
+        tileObjectList.Add(new TileClass(gtemp, temp, 2));
     }
 
     bool isFullTile() {
@@ -80,9 +83,10 @@ public class TileManager : MonoBehaviour {
     }
 
     void createTile(int value, int target_position) {
-        Vector3 vtemp = findTilePositon(target_position);
+        Vector3 vtemp = findTargetTilePositon(target_position);
         GameObject gtemp = tc.createTile(value, vtemp);
-        tileObjectList.Add(new TileClass(gtemp, target_position));
+        tileObjectList.Add(new TileClass(gtemp, target_position, value));
+        Debug.Log("createTile");
     }
 
     int setRandom() {
@@ -186,6 +190,34 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+    void checkMove(string direction) {
+        if(direction == "left") {
+            Queue<TileClass> queue = new Queue<TileClass>();
+            int[,] temp_arry = getTileArray();
+
+            for(int i = 0; i < col; i++) {
+                for(int p = 0; p < col; p++) {
+                    if(temp_arry[i, p] != 0) {
+                        queue.Enqueue(findTileClass(i));
+                    }
+                    Debug.Log(i+"  :   "+p);
+                }
+                
+            }
+
+            while(queue.Count > 0) {
+                TileClass temp_tile = queue.Dequeue();
+
+                
+            }
+
+
+        } else if(direction == "right") {
+
+        }
+        
+    }
+
     void moveTile(int current, int target) {
         tiles[target] = tiles[current];
         tiles[current] = 0;
@@ -200,11 +232,10 @@ public class TileManager : MonoBehaviour {
     }
 
     void combineTile(int current, int target) {
-        //Vector3 temp = findTilePositon(target);
 
         tiles[target] += tiles[current];
         tiles[current] = 0;
-
+        Debug.Log("current : " + current + "target : " + target);
         createTile(tiles[target], target);
 
         deleteTile(current);
@@ -236,17 +267,49 @@ public class TileManager : MonoBehaviour {
         return null;
     }
 
-    Vector3 findTilePositon(int target_number) {
+    Vector3 findTargetTilePositon(int target_number) {
         return findTileClass(target_number).getTile().transform.position;
+    }
+
+    int[,] getTileArray() {
+        int[, ] result = new int[col , col];
+
+        for(int i = 0; i < col; i++) {
+            for(int p = 0; p < col; p++) {
+                result[i, p] = 0;
+            }
+        }
+        
+        for(int i = 0; i < tileObjectList.Count; i++) {
+            int temp = tileObjectList[i].getPosition();
+            result[temp / col, temp % col] = tileObjectList[i].getValue();
+        }
+
+        return result;
     }
 
     class TileClass {
         GameObject tile;
         int position;
+        int value;
 
         public TileClass(GameObject value, int num) {
             this.tile = value;
             this.position = num;
+        }
+
+        public TileClass(GameObject go, int num, int value) {
+            this.tile = go;
+            this.position = num;
+            this.value = value;
+        }
+
+        public int getValue() {
+            return this.value;
+        }
+
+        public void addValue() {
+            this.value += this.value;
         }
 
         public int getPosition() {
