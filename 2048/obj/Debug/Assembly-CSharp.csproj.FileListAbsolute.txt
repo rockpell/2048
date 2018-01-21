@@ -66,3 +66,4 @@ D:\Unity Projects\2048\2048\obj\Debug\Assembly-CSharp.csprojResolveAssemblyRefer
 D:\Unity Projects\2048\2048\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
 D:\Unity Projects\2048\2048\obj\Debug\Assembly-CSharp.dll
 D:\Unity Projects\2048\2048\obj\Debug\Assembly-CSharp.pdb
+D:\Unity Projects\2048\2048\Temp\bin\Debug\UnityEditor.WebGL.Extensions.dll
