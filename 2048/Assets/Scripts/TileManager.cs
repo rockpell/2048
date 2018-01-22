@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TileManager : MonoBehaviour {
 
     public GameObject[] tilePositions;
     public GameObject game_end_object;
+    public Text score_text;
 
     private TileCreator tc;
     private List<TileClass> tileObjectList;
@@ -17,7 +19,7 @@ public class TileManager : MonoBehaviour {
     private int col = 3;
     private int move_cool_time = 0;
     private int move_cool_tile_max = 15;
-    
+    private int game_score = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +30,7 @@ public class TileManager : MonoBehaviour {
         createInitTile();
 
         move_cool_time = move_cool_tile_max;
+        refreshScore();
     }
 	
 	// Update is called once per frame
@@ -46,21 +49,25 @@ public class TileManager : MonoBehaviour {
                 checkCreateInitTile();
                 is_move_able = false;
                 move_cool_time = 0;
+                refreshScore();
             } else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
                 checkMove("left");
                 checkCreateInitTile();
                 is_move_able = false;
                 move_cool_time = 0;
+                refreshScore();
             } else if(Input.GetKeyDown(KeyCode.UpArrow)) {
                 checkMove("up");
                 checkCreateInitTile();
                 is_move_able = false;
                 move_cool_time = 0;
+                refreshScore();
             } else if(Input.GetKeyDown(KeyCode.DownArrow)) {
                 checkMove("down");
                 checkCreateInitTile();
                 is_move_able = false;
                 move_cool_time = 0;
+                refreshScore();
             }
         }
     }
@@ -88,6 +95,7 @@ public class TileManager : MonoBehaviour {
         
         gtemp = tc.createTile(2, getTilePosition(temp));
         tileObjectList.Add(new TileClass(gtemp, temp, 2));
+        addScore(2);
     }
 
     int setRandom() {
@@ -129,6 +137,7 @@ public class TileManager : MonoBehaviour {
         Vector3 vtemp = findTargetTilePositon(target_position);
         GameObject gtemp = tc.createTile(value, vtemp);
         tileObjectList.Add(new TileClass(gtemp, target_position, value));
+        addScore(value);
     }
 
     bool checkCreatableTile(int num) {
@@ -396,6 +405,14 @@ public class TileManager : MonoBehaviour {
         }
 
         return result;
+    }
+
+    void refreshScore() {
+        score_text.GetComponent<Text>().text = "" + game_score;
+    }
+
+    void addScore(int value) {
+        game_score += value;
     }
 
     class TileClass {
