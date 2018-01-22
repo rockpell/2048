@@ -134,7 +134,7 @@ public class TileManager : MonoBehaviour {
         return result;
     }
     void createTile(int value, int target_position) {
-        Vector3 vtemp = findTargetTilePositon(target_position);
+        Vector3 vtemp = getTilePosition(target_position);
         GameObject gtemp = tc.createTile(value, vtemp);
         tileObjectList.Add(new TileClass(gtemp, target_position, value));
         addScore(value);
@@ -285,9 +285,12 @@ public class TileManager : MonoBehaviour {
 
     bool checkGameEnd() {
         bool result = true;
+        //Debug.Log("tile count : " + tileObjectList.Count);
 
         for(int i = 0; i < tileObjectList.Count; i++) {
             int temp_position = tileObjectList[i].getPosition();
+
+            //Debug.Log("temp_position : " + temp_position);
 
             if(temp_position + 1 < col * col) {
                 if(temp_position / col == (temp_position + 1) / col) { // 오른쪽 검사
@@ -302,7 +305,7 @@ public class TileManager : MonoBehaviour {
                 }
             }
 
-            if(temp_position - 1 > 0) {
+            if(temp_position - 1 >= 0) {
                 if(temp_position / col == (temp_position - 1) / col) { // 왼쪽 검사
                     TileClass target_tile_class = findTileClass(temp_position - 1);
                     if(target_tile_class != null) {
@@ -340,6 +343,7 @@ public class TileManager : MonoBehaviour {
             if(tileObjectList[i].getValue() == 256) {
                 is_game_end = true;
                 game_end_object.SetActive(true);
+                Debug.Log("Game Clear!!!!!!!!!!!");
             }
         }
 
@@ -355,10 +359,14 @@ public class TileManager : MonoBehaviour {
         int position = col * this.col + row;
         if(tile_class.getPosition() != position) {
             tile_class.setPosition(position);
-            tile_class.getTile().transform.position = getTilePosition(position);
-            //tile_class.getTile().SendMessage("setTargetPosition", getTilePosition(position));
+            //tile_class.getTile().transform.position = getTilePosition(position);
+            moveViewTile(tile_class, position);
             creatable_init_tile = true; // 초기 타일 생성 가능
         }
+    }
+
+    void moveViewTile(TileClass tile_class, int position) {
+        tile_class.getTile().SendMessage("setTargetPosition", getTilePosition(position));
     }
 
     void combineTile(TileClass tile_class, int col, int row) {
@@ -368,10 +376,13 @@ public class TileManager : MonoBehaviour {
         deleteTile(tile_class.getPosition());
         deleteTile(position);
 
+        moveViewTile(tile_class, position);
+
         creatable_init_tile = true; // 초기 타일 생성 가능
     }
 
     void deleteTile(int target) {
+        //Debug.Log("target : " + target);
         TileClass temp = findTileClass(target);
         temp.destroyTile();
         tileObjectList.Remove(temp);
@@ -456,7 +467,8 @@ public class TileManager : MonoBehaviour {
         }
 
         public void destroyTile() {
-            Destroy(this.tile);
+            //Destroy(this.tile);
+            this.tile.SendMessage("setDestroy");
         }
     }
 }

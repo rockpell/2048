@@ -9,9 +9,11 @@ public class TileSelf : MonoBehaviour {
     private Vector3 startPosition;
 
     private bool is_move = false;
+    private bool destroy_switch = false;
 
     private float moveFloat = 0;
     private float speed = 6.0f;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -23,6 +25,9 @@ public class TileSelf : MonoBehaviour {
             is_move = false;
         }
 
+        if(!is_move && destroy_switch) {
+            Destroy(this.gameObject);
+        }
     }
 
     void FixedUpdate() {
@@ -51,4 +56,7 @@ public class TileSelf : MonoBehaviour {
         is_move = true;
     }
 
+    void setDestroy() {
+        destroy_switch = true;
+    }
 }
