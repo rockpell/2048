@@ -356,7 +356,7 @@ public class TileManager : MonoBehaviour {
         if(tile_class.getPosition() != position) {
             tile_class.setPosition(position);
             tile_class.getTile().transform.position = getTilePosition(position);
-
+            //tile_class.getTile().SendMessage("setTargetPosition", getTilePosition(position));
             creatable_init_tile = true; // 초기 타일 생성 가능
         }
     }

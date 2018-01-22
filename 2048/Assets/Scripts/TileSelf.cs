@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class TileSelf : MonoBehaviour {
 
-    Vector3 completeScale = new Vector3(1, 1, 1);
+    private Vector3 completeScale = new Vector3(1, 1, 1);
+    private Vector3 targetPosition;
+    private Vector3 startPosition;
 
+    private bool is_move = false;
+
+    private float moveFloat = 0;
+    private float speed = 6.0f;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,15 +19,23 @@ public class TileSelf : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(is_move && this.transform.position == targetPosition) {
+            is_move = false;
+        }
+
+    }
+
+    void FixedUpdate() {
         if(!checkScale()) {
             Vector3 temp = this.transform.localScale;
-            
+
             this.transform.localScale = new Vector3(temp.x + 0.02f, temp.y + 0.02f, 1);
         }
-	}
 
-    void setScaleUp() {
-
+        if(is_move) {
+            moveFloat += Time.deltaTime * speed;
+            this.transform.position = Vector3.Lerp(startPosition, targetPosition, moveFloat);
+        }
     }
 
     bool checkScale() {
@@ -30,4 +44,11 @@ public class TileSelf : MonoBehaviour {
         }
         return false;
     }
+
+    void setTargetPosition(Vector3 target) {
+        targetPosition = target;
+        startPosition = this.transform.position;
+        is_move = true;
+    }
+
 }
